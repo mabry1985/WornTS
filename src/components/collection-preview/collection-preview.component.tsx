@@ -1,11 +1,12 @@
 import * as React from "react";
 
-import "./collection-preview.styles.sass";
-import { CollectionItem } from "../../pages/shop/shop.component";
+import "./collection-preview.styles.scss";
+import { CollectionItemType } from "../../pages/shop/shop.component";
+import CollectionItem from "../../components/collection-item/collection-item.component";
 
 export interface CollectionPreviewProps {
   title: string;
-  items: CollectionItem[];
+  items: CollectionItemType[];
 }
 
 export const CollectionPreview: React.FC<CollectionPreviewProps> = ({
@@ -17,9 +18,10 @@ export const CollectionPreview: React.FC<CollectionPreviewProps> = ({
     <div className="preview">
       {items
         .filter((item, i) => i < 4)
-        .map((item) => (
-          <div key={item.id}>{item.name}</div>
-        ))}
+        .map(({id, ...otherItemProps}) => {
+          return <CollectionItem key={id} {...otherItemProps} />
+        }
+        )}
     </div>
   </div>
 );

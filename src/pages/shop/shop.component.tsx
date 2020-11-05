@@ -3,27 +3,27 @@ import SHOP_DATA from "./shop.data";
 
 import CollectionPreview from "../../components/collection-preview/collection-preview.component";
 
-export type CollectionItem = {
+export type CollectionItemType = {
   id: number;
   name: string;
   imageUrl: string;
   price: number;
 };
 
-export type Collection = {
+export type CollectionType = {
   id: number;
   title: string;
   routeName: string;
-  items: CollectionItem[];
+  items: CollectionItemType[];
 };
 
 export interface ShopPageState {
-  collections: Collection[];
+  collections: CollectionType[];
 }
 
 export interface ShopPageProps {}
 
-export default class ShopPage extends Component<ShopPageProps, ShopPageState> {
+export class ShopPage extends Component<ShopPageProps, ShopPageState> {
   constructor(props: ShopPageProps) {
     super(props);
 
@@ -33,6 +33,7 @@ export default class ShopPage extends Component<ShopPageProps, ShopPageState> {
   }
   render() {
     const { collections } = this.state;
+    console.log(collections)
     return (
       <div className="shop-page">
         {collections.map(({ id, ...otherCollectionProps }) => (
@@ -42,3 +43,5 @@ export default class ShopPage extends Component<ShopPageProps, ShopPageState> {
     );
   }
 }
+
+export default ShopPage;
