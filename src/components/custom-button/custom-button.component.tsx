@@ -3,8 +3,9 @@ import React, { ReactNode } from 'react';
 import './custom-button.styles.scss';
 
 export interface CustomButtonProps {
-  children: ReactNode;
-  type: any;
+  children?: ReactNode;
+  onClick?: () => void;
+  type?: any;
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({ children, ...otherProps }) => {
