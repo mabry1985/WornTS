@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 
 import "./App.css";
@@ -47,14 +47,14 @@ class App extends React.Component<{}, AppState> {
 
   render() {
     return (
-      <BrowserRouter>
+      <>
         <Header currentUser={this.state.currentUser}/>
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path="/shop" component={ShopPage} />
           <Route path="/signin" component={SignInAndSignUpPage} />
         </Switch>
-      </BrowserRouter>
+      </>
     );
   }
 }
