@@ -1,6 +1,6 @@
 import React from "react";
-import { Route, Switch } from "react-router-dom";
-import { connect } from 'react-redux';
+import { Route, Switch, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
 import "./App.css";
 
@@ -9,10 +9,12 @@ import ShopPage from "./pages/shop/shop.component";
 import Header from "./components/header/header.component";
 import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
-import { setCurrentUser } from './redux/user/user.actions'
+import { setCurrentUser } from "./redux/user/user.actions";
+import userEvent from "@testing-library/user-event";
 
 export interface AppProps {
   setCurrentUser: any;
+  currentUser: any;
 }
 
 class App extends React.Component<AppProps, {}> {
@@ -21,19 +23,19 @@ class App extends React.Component<AppProps, {}> {
   componentDidMount() {
     const { setCurrentUser } = this.props;
 
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
-        
-        userRef?.onSnapshot(snapShot => {
+
+        userRef?.onSnapshot((snapShot) => {
           setCurrentUser({
-              id: snapShot.id,
-              ...snapShot.data()
+            id: snapShot.id,
+            ...snapShot.data(),
           });
         });
       }
-      setCurrentUser(userAuth)
-    })
+      setCurrentUser(userAuth);
+    });
   }
 
   componentWillUnmount() {
@@ -47,15 +49,29 @@ class App extends React.Component<AppProps, {}> {
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path="/shop" component={ShopPage} />
-          <Route path="/signin" component={SignInAndSignUpPage} />
+          <Route
+            exact
+            path="/signin"
+            render={() =>
+              this.props.currentUser ? (
+                <Redirect to="/" />
+              ) : (
+                <SignInAndSignUpPage />
+              )
+            }
+          />
         </Switch>
       </>
     );
   }
 }
 
-const mapDispatchToProps = (dispatch: any) => ({
-  setCurrentUser: (user: any) => dispatch(setCurrentUser(user))
+const mapStateToProps = ({ user }: { user: any }) => ({
+  currentUser: user.currentUser,
 });
 
-export default connect(null, mapDispatchToProps)(App);
+const mapDispatchToProps = (dispatch: any) => ({
+  setCurrentUser: (user: any) => dispatch(setCurrentUser(user)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
