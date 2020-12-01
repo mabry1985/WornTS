@@ -5,13 +5,14 @@ import './custom-button.styles.scss';
 export interface CustomButtonProps {
   children?: ReactNode;
   isGoogleSignIn?: boolean;
+  inverted?: boolean;
   onClick?: () => void;
   type?: any;
 }
 
-const CustomButton: React.FC<CustomButtonProps> = ({ children, isGoogleSignIn, ...otherProps }) => {
+const CustomButton: React.FC<CustomButtonProps> = ({ children, isGoogleSignIn, inverted, ...otherProps }) => {
   return (
-    <button className={`${isGoogleSignIn ?'google-sign-in': ''} custom-button`} {...otherProps}>
+    <button className={`${inverted ? 'inverted' : ''} ${isGoogleSignIn ?'google-sign-in': ''} custom-button`} {...otherProps}>
       {children}     
     </button>
   )
