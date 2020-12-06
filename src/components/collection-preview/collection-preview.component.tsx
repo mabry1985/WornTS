@@ -1,7 +1,9 @@
 import * as React from "react";
 
 import "./collection-preview.styles.scss";
-import { CollectionItemType } from "../../pages/shop/shop.component";
+
+import { CollectionItemType } from "../../components/collections-overview/collections-overview.component"
+
 import CollectionItem from "../collection-item/collection-item.component";
 
 export interface CollectionPreviewProps {
