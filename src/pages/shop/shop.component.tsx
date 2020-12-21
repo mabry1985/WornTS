@@ -1,11 +1,22 @@
 import React from "react";
+import { Route } from 'react-router-dom';
 
-import CollectionsOverview from '../../components/collections-overview/collections-overview.component'
+import CollectionsOverview from '../../components/collections-overview/collections-overview.component';
+import CollectionPage from '../collection/collection.component';
 
-const ShopPage = () => {
+import { RouteComponentProps } from 'react-router';
+interface MatchParams {
+  name: string;
+}
+
+interface ShopPageProps extends RouteComponentProps<MatchParams> {
+}
+
+const ShopPage = ({ match } : ShopPageProps) => {
   return (
     <div className="shop-page">
-      <CollectionsOverview />
+      <Route exact path={`${match.path}`} component={CollectionsOverview} />
+      <Route path={`${match.path}/:collectionId`} component={CollectionPage}/>
     </div>
   );
 };
